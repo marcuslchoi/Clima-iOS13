@@ -11,4 +11,17 @@ import Foundation
 struct WeatherData:Decodable
 {
     let name:String
+    let main:Main
+    let weather: [WeatherProperties]
+}
+
+//see the weather data JSON format
+struct Main:Decodable
+{
+    let temp:Double
+}
+
+struct WeatherProperties:Decodable
+{
+    let description:String
 }

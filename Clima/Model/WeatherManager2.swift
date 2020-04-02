@@ -55,6 +55,8 @@ struct WeatherManager {
             //WeatherData.self refers to the WeatherData type
             let decodedData = try decoder.decode(WeatherData.self, from: data)
             print(decodedData.name)
+            print(decodedData.main.temp)
+            print(decodedData.weather[0].description)
         } catch {
             print(error)
         }
