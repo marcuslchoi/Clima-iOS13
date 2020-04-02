@@ -38,25 +38,25 @@ struct WeatherManager {
                 }
                 if let safeData = data
                 {
-                    let dataString = String(data: safeData, encoding: .utf8)
-                    print(dataString)
+                    self.parseJSON(data: safeData)
                 }
             }
             task.resume()
         }
     }
     
-    func handleData(data:Data?, response:URLResponse?, error:Error?)
+    func parseJSON(data:Data)
     {
-        if(error != nil)
+        let decoder = JSONDecoder()
+        
+        do
         {
+            //since decode can throw an error, must be in "do block" with try and catch
+            //WeatherData.self refers to the WeatherData type
+            let decodedData = try decoder.decode(WeatherData.self, from: data)
+            print(decodedData.name)
+        } catch {
             print(error)
-            return
-        }
-        if let safeData = data
-        {
-            let dataString = String(data: safeData, encoding: .utf8)
-            print(dataString)
         }
     }
 }
