@@ -30,7 +30,18 @@ struct WeatherManager {
             //create URL session
             //like a browser (performs the networking)
             let urlSession = URLSession(configuration: .default)
-            let task = urlSession.dataTask(with: url, completionHandler: handleData(data:response:error:))
+            let task = urlSession.dataTask(with: url) { (data, response, error) in
+                if(error != nil)
+                {
+                    print(error)
+                    return
+                }
+                if let safeData = data
+                {
+                    let dataString = String(data: safeData, encoding: .utf8)
+                    print(dataString)
+                }
+            }
             task.resume()
         }
     }
