@@ -9,7 +9,7 @@
 import Foundation
 
 //structs for dealing with JSON data
-struct WeatherData:Decodable
+struct WeatherData:Codable
 {
     let name:String
     let main:Main
@@ -17,12 +17,12 @@ struct WeatherData:Decodable
 }
 
 //see the weather data JSON format
-struct Main:Decodable
+struct Main:Codable
 {
     let temp:Double
 }
 
-struct WeatherProperties:Decodable
+struct WeatherProperties:Codable
 {
     let id:Int
     let description:String
