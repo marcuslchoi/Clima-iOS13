@@ -19,6 +19,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        WeatherManager.instance.delegate = self
         //current view controller is now notified when events happen with this text field
         searchTextField.delegate = self
     }
@@ -50,13 +51,12 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     func textFieldDidEndEditing(_ textField: UITextField) {
         //searchTextField.text = ""
         if let city = searchTextField.text{
-            WeatherManager.instance.delegate = self
             WeatherManager.instance.getWeather(city)
         }
     }
     
     //conform to WeatherManagerDelegate protocol
-    func didUpdateWeather(_ weatherModel: WeatherModel) {
+    func didUpdateWeather(_ weatherManager: WeatherManager, _ weatherModel: WeatherModel) {
         print(weatherModel.conditionName)
     }
 }
