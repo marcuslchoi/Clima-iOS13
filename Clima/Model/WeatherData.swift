@@ -8,6 +8,7 @@
 
 import Foundation
 
+//structs for dealing with JSON data
 struct WeatherData:Decodable
 {
     let name:String
@@ -23,5 +24,6 @@ struct Main:Decodable
 
 struct WeatherProperties:Decodable
 {
+    let id:Int
     let description:String
 }

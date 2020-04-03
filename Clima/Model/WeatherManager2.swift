@@ -54,11 +54,18 @@ struct WeatherManager {
             //since decode can throw an error, must be in "do block" with try and catch
             //WeatherData.self refers to the WeatherData type
             let decodedData = try decoder.decode(WeatherData.self, from: data)
-            print(decodedData.name)
-            print(decodedData.main.temp)
-            print(decodedData.weather[0].description)
+            let name = decodedData.name
+            let temp = decodedData.main.temp
+            let conditionId = decodedData.weather[0].id
+            
+            let weatherObj = WeatherModel(conditionId: conditionId, cityName: name, temperature: temp)
+            let conditionName = weatherObj.conditionName
+
+            print(conditionName)
         } catch {
             print(error)
         }
     }
+    
+    
 }
