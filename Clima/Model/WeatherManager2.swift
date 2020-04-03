@@ -11,6 +11,7 @@ import Foundation
 protocol WeatherManagerDelegate
 {
     func didUpdateWeather(_ weatherManager:WeatherManager, _ weatherModel: WeatherModel)
+    func didFailWithError(_ weatherManager:WeatherManager, _ error:Error)
 }
 
 struct WeatherManager {
@@ -41,6 +42,7 @@ struct WeatherManager {
                 if(error != nil)
                 {
                     print(error)
+                    self.delegate?.didFailWithError(self, error!)
                     return
                 }
                 if let safeData = data
@@ -74,7 +76,7 @@ struct WeatherManager {
             return weatherObj
             
         } catch {
-            print(error)
+            self.delegate?.didFailWithError(self, error)
             return nil
         }
     }
