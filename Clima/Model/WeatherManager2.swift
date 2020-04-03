@@ -8,7 +8,14 @@
 
 import Foundation
 
+protocol WeatherManagerDelegate
+{
+    func didUpdateWeather(_ weatherModel: WeatherModel)
+}
+
 struct WeatherManager {
+    var delegate:WeatherManagerDelegate?
+    
     let baseUrl = "https://api.openweathermap.org/data/2.5/weather?appid=d655f558ea04d2b06dd81edb00d41ef8&units=imperial"
     
     static var instance = WeatherManager()
@@ -40,7 +47,7 @@ struct WeatherManager {
                 {
                     if let weatherModel = self.parseJSON(data: safeData)
                     {
-                        
+                        self.delegate?.didUpdateWeather(weatherModel)
                     }
                 }
             }
