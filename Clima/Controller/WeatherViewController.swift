@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
 
@@ -15,15 +16,41 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        
         
         WeatherManager.instance.delegate = self
         //current view controller is now notified when events happen with this text field
         searchTextField.delegate = self
     }
 }
+
+//MARK: - CLLocationManagerDelegate
+extension WeatherViewController: CLLocationManagerDelegate
+{
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last
+        {
+            let lat = Double(location.coordinate.latitude)
+            let lon = Double(location.coordinate.longitude)
+            WeatherManager.instance.getWeather(lat, lon)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+}
+
+//MARK: - WeatherManagerDelegate
 
 extension WeatherViewController: WeatherManagerDelegate
 {
@@ -43,6 +70,7 @@ extension WeatherViewController: WeatherManagerDelegate
     }
 }
 
+//MARK: - UITextFieldDelegate
 extension WeatherViewController:UITextFieldDelegate
 {
     @IBAction func searchButtonPressed(_ sender: UIButton) {

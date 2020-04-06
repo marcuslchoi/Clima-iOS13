@@ -38,6 +38,12 @@ struct WeatherManager {
         performRequest(url)
     }
     
+    func getWeather(_ lat:Double, _ lon:Double)
+    {
+        let url = baseUrl + "&lat=\(lat)&lon=\(lon)"
+        performRequest(url)
+    }
+    
     func performRequest(_ urlString: String)
     {
         //optional binding
