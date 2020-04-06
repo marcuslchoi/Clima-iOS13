@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
 
     @IBOutlet weak var searchTextField: UITextField!
     
@@ -23,7 +23,10 @@ class WeatherViewController: UIViewController, WeatherManagerDelegate {
         //current view controller is now notified when events happen with this text field
         searchTextField.delegate = self
     }
+}
 
+extension WeatherViewController: WeatherManagerDelegate
+{
     //conform to WeatherManagerDelegate protocol
     func didUpdateWeather(_ weatherManager: WeatherManager, _ weatherModel: WeatherModel) {
         print(weatherModel.conditionName)
