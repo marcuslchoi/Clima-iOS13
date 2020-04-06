@@ -31,14 +31,21 @@ class WeatherViewController: UIViewController {
         //current view controller is now notified when events happen with this text field
         searchTextField.delegate = self
     }
+    @IBAction func locationButtonPressed(_ sender: Any) {
+        locationManager.requestLocation()
+    }
 }
 
 //MARK: - CLLocationManagerDelegate
 extension WeatherViewController: CLLocationManagerDelegate
 {
+    
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last
         {
+            //once we get a location, we want to stop location manager from continuing to update it
+            manager.stopUpdatingLocation()
             let lat = Double(location.coordinate.latitude)
             let lon = Double(location.coordinate.longitude)
             WeatherManager.instance.getWeather(lat, lon)
@@ -61,6 +68,7 @@ extension WeatherViewController: WeatherManagerDelegate
         DispatchQueue.main.async {
             self.temperatureLabel.text = String(weatherModel.temperature)
             self.conditionImageView.image = UIImage(systemName: weatherModel.conditionName)
+            self.cityLabel.text = weatherModel.cityName
         }
     }
     
