@@ -14,6 +14,14 @@ protocol WeatherManagerDelegate
     func didFailWithError(_ weatherManager:WeatherManager, _ error:Error)
 }
 
+extension WeatherManagerDelegate
+{
+    func didUpdateWeather(_ weatherManager:WeatherManager, _ weatherModel: WeatherModel)
+    {
+        print("hi this is the default behavior of didUpdateWeather. Now if implementing this protocol, the class/struct does not have to explicitly implement this method.")
+    }
+}
+
 struct WeatherManager {
     var delegate:WeatherManagerDelegate?
     
