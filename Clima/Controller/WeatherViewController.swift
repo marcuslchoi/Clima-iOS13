@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController, WeatherManagerDelegate {
 
     @IBOutlet weak var searchTextField: UITextField!
     
@@ -24,8 +24,24 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.delegate = self
     }
 
-    //d655f558ea04d2b06dd81edb00d41ef8
+    //conform to WeatherManagerDelegate protocol
+    func didUpdateWeather(_ weatherManager: WeatherManager, _ weatherModel: WeatherModel) {
+        print(weatherModel.conditionName)
+        //must invoke on main thread since this function is called while networking (run on bg thread)
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = String(weatherModel.temperature)
+            self.conditionImageView.image = UIImage(systemName: weatherModel.conditionName)
+        }
+    }
+    
+    //conform to WeatherManagerDelegate protocol
+    func didFailWithError(_ weatherManager:WeatherManager, _ error: Error) {
+        print(error)
+    }
+}
 
+extension WeatherViewController:UITextFieldDelegate
+{
     @IBAction func searchButtonPressed(_ sender: UIButton) {
         print(searchTextField.text!)
     }
@@ -55,19 +71,5 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         }
     }
     
-    //conform to WeatherManagerDelegate protocol
-    func didUpdateWeather(_ weatherManager: WeatherManager, _ weatherModel: WeatherModel) {
-        print(weatherModel.conditionName)
-        //must invoke on main thread since this function is called while networking (run on bg thread)
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = String(weatherModel.temperature)
-            self.conditionImageView.image = UIImage(systemName: weatherModel.conditionName)
-        }
-    }
-    
-    //conform to WeatherManagerDelegate protocol
-    func didFailWithError(_ weatherManager:WeatherManager, _ error: Error) {
-        print(error)
-    }
 }
 
